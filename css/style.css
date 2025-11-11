@@ -1,3 +1,250 @@
-body{
-    color: aquamarine;
+/* :root は全体（HTML全体）に影響するCSS変数を定義する場所 */
+:root {
+  --accent: #2563eb;   /* アクセントカラー（青） */
+  --maxw: 960px;       /* 最大幅を960pxに制限 */
+}
+
+
+/* html, body を100%の高さにしておく（背景などで便利） */
+html, body { height: 100%; }
+
+
+/* 全体の基本スタイル */
+body {
+  margin: 0;              /* 余白をリセット */
+  line-height: 1.6;       /* 行間を少し広めに */
+  color: #222;            /* 文字色を少し濃いグレーに */
+  background: #fff;       /* 背景は白 */
+}
+
+
+/* ==============================================
+   🔗 リンク・画像・共通レイアウト
+   ============================================== */
+a {
+  color: var(--accent);   /* 先ほど設定した青色を使用 */
+  text-decoration: none;  /* 下線を消す */
+}
+a:hover, a:focus-visible { text-decoration: underline; } /* ホバーやフォーカス時に下線表示 */
+
+
+/* 画像がはみ出さないようにする */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+/* ページ全体の共通余白設定（左右の余白を自動で中央に） */
+.container {
+  width: min(100% - 2rem, var(--maxw));  /* 幅を最大960px＋左右1rem余白 */
+  margin: 0 auto;                         /* 中央寄せ */
+}
+
+
+/* ==============================================
+   🧭 ヘッダー（ロゴ＋ナビゲーション）
+   ============================================== */
+header {
+  border-bottom: 1px solid #e5e7eb;  /* 下に線を引く */
+  background: #fff;                  /* 背景を白に */
+}
+
+
+/* ヘッダー内の配置（ロゴとメニューを左右に並べる） */
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .75rem 0;
+}
+
+
+/* ロゴ部分を太字に */
+.brand { font-weight: 700; }
+
+
+/* ナビゲーション（メニュー） */
+nav ul {
+  list-style: none;          /* 箇条書きマークを消す */
+  margin: 0;
+  padding: 0;
+  display: flex;             /* 横並びに */
+  gap: .75rem;               /* 間をあける */
+  flex-wrap: wrap;           /* 狭い画面では折り返す */
+}
+
+
+nav a {
+  padding: .25rem .5rem;
+  border-radius: .4rem;
+}
+
+
+/* ホバーやフォーカス時の背景 */
+nav a:hover, nav a:focus-visible {
+  background: #eef2ff;       /* 少し淡い青の背景 */
+  text-decoration: none;
+}
+
+
+/* ==============================================
+   🌄 ヒーローエリア（トップの見出し）
+   ============================================== */
+
+
+.hero {
+  padding: 1.25rem 0;
+  background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%); /* グラデーション背景 */
+}
+
+
+.hero h1 {
+  margin: 0 0 .25rem;
+  font-size: clamp(1.4rem, 3.5vw, 2rem); /* 画面サイズで可変する文字サイズ */
+}
+
+
+.hero p {
+  margin: 0;
+  color: #555;
+}
+
+
+/* ==============================================
+   🧱 メインレイアウト（グリッド構成）
+   ============================================== */
+
+
+main { padding: 1.25rem 0; }
+
+
+/* grid（グリッド）でレイアウトを制御 */
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-areas: "aside" "main"; /* スマホでは縦並び */
+}
+
+
+
+
+/* 画面幅が768px以上（タブレット・PC）になったら横並びにする */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: 2fr 1fr;      /* メイン2：サイド1の比率 */
+    grid-template-areas: "main aside";   /* 横に並ぶ */
+  }
+}
+
+
+.maincol { grid-area: main; }   /* メインカラム */
+aside { grid-area: aside; }     /* サイドカラム */
+
+
+/* ==============================================
+   🎨 セクションデザイン（背景と枠線）
+   ============================================== */
+
+
+section, aside {
+  border: 1px solid #e5e7eb;               /* 薄いグレーの枠線 */
+  border-radius: .6rem;                    /* 角を丸く */
+  padding: 1rem;                           /* 内側の余白 */
+  background: linear-gradient(180deg, #f0f7ff 0%, #ffffff 100%); /* 淡い青→白のグラデーション */
+  margin-bottom: 1rem;                     /* 下に少し間を空ける */
+}
+
+
+/* aside（お知らせ欄）だけは黄色っぽい背景 */
+aside {
+  background: linear-gradient(180deg, #fff3cd 0%, #ffffff 100%);
+}
+
+
+/* 見出し（h2） */
+h2 {
+  margin-top: 0;
+  font-size: 1.15rem;
+}
+
+
+/* 箇条書きの余白 */
+.list { padding-left: 1.2rem; }
+
+
+/* ==============================================
+   📊 テーブル（タイムテーブル）
+   ============================================== */
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;   /* 枠線を重ねてスッキリ */
+  font-size: .95rem;
+}
+th, td {
+  text-align: left;
+  padding: .5rem .6rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+th { background: #f3f4f6; }  /* ヘッダー行の背景を薄いグレーに */
+
+
+/* ==============================================
+   ✉️ フォーム（入力欄・ボタン）
+   ============================================== */
+
+
+.field { margin: .75rem 0; }  /* 各フィールドの間隔 */
+
+
+.input, .textarea {
+  width: 90%;
+  padding: .6rem;
+  border: 1px solid #ddd;
+  border-radius: .4rem;
+  background: #fff;
+  color: #222;
+}
+
+
+/* 送信ボタン */
+.btn {
+  padding: .6rem 1rem;
+  border: 1px solid #2563eb;
+  background: #2563eb;
+  color: #fff;
+  border-radius: .4rem;
+  font-weight: 600;
+  cursor: pointer;  /* カーソルを指マークに */
+}
+
+
+/* ボタンにホバー・フォーカス時の効果（少し暗く） */
+.btn:hover, .btn:focus-visible {
+  filter: brightness(0.95);
+}
+
+
+/* ==============================================
+   📝 備考テキスト（注意書き）
+   ============================================== */
+
+
+.note {
+  margin: .5rem 0 0;
+  color: #666;
+}
+
+
+/* ==============================================
+   ⚓ フッター
+   ============================================== */
+footer {
+  border-top: 1px solid #e5e7eb;  /* 上に線 */
+  padding: 1.5rem 0;              /* 上下に余白 */
+  color: #666;                    /* 文字を少し薄めに */
+  font-size: .9rem;               /* 小さめ文字 */
 }
